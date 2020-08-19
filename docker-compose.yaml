@@ -1,0 +1,18 @@
+ 
+version: "3"
+services:
+  # Dev Image
+  ups_mail_api:
+    build:
+      context: .
+      dockerfile: ./docker/dev_image/Dockerfile
+    image: ups_mail_api:local
+    ports:
+      - "2000:2000" # Remember, this must correspond to the environmental variable file.
+ 
+    container_name: ups_mail_api
+    logging:
+      driver: "json-file"
+      options:
+        max-file: "5"
+        max-size: "1m"
