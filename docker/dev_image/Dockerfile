@@ -9,5 +9,7 @@ EXPOSE 2000
 
 RUN npm install
 
+#RUN npm i dotenv
+
 
 CMD [ "npm", "run", "start-dev" ]

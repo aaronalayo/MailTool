@@ -1,4 +1,3 @@
- 
 version: "3"
 services:
   # Dev Image
@@ -7,9 +6,11 @@ services:
       context: .
       dockerfile: ./docker/dev_image/Dockerfile
     image: ups_mail_api:local
+    env_file:
+      - ./configs/public.env
+      - ./configs/private.env
     ports:
       - "2000:2000" # Remember, this must correspond to the environmental variable file.
- 
     container_name: ups_mail_api
     logging:
       driver: "json-file"
