@@ -18,11 +18,6 @@ app.use(express.urlencoded({ extended: false })); //to get response fromm
 // parse application/json
 app.use(express.json()); //to sumit form
 
-app.get("/test", async (req, res) => {
-  res.status(200).send(process.env);
-  //res.status(200).send("Hello");
-});
-
 app.post("/email", async (req, res) => {
   const { subject, body, recipient} = req.body;
   
@@ -82,12 +77,29 @@ app.post("/email_template", async (req, res) => {
       .send({ message: "The email body contains illegal characters" });
   } else if (expression.test(String(recipient).toLowerCase()) == false) {
     res.status(411).send("Check email address");
-  } else {
+
+  }else if (mailData.name.length == 0 || mailData.name.length > 30) {
+    res.status(411).send("Name length must be between 1 - 30 characters.");
+  } else if (illegalChar.test(mailData.name) == false) {
+    res
+      .status(411)
+      .send("The name has illegal characters");
+  }else if (mailData.alarm_name.length == 0 || mailData.alarm_name.length > 30) {
+    res.status(411).send("Alarm name length must be between 1 - 30 characters.");
+  } else if (illegalChar.test(mailData.alarm_name) == false) {
+    res
+      .status(411)
+      .send("The alarm name has illegal characters");
+  } 
+  else {
     var emailText = await readFile('mail_templates/simple_alert.html', 'utf8');
     emailText = emailText.replace(/{name}/g, mailData.name);
     emailText = emailText.replace(/{alarm_name}/g, mailData.alarm_name);
     emailText = emailText.replace(/{alarm_link}/g, mailData.alarm_link);
+    var image = await fs.readFileSync('mail_templates/UpSmarting_Logo_text_HR_coolvetica_large.png');
+    let img64 = image.toString('base64');
     
+    emailText = emailText.replace(/{image}/g, img64)
     const mailOptions = {
       from: config.MAILUSER,
       to: recipient,
