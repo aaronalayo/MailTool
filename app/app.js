@@ -10,6 +10,7 @@ const fs = require('fs');
 const { promisify } = require('util');
 const readFile = promisify(fs.readFile);
 
+
 app.use(helmet());
 
 // parse application/x-www-form-urlencoded
@@ -96,16 +97,29 @@ app.post("/email_template", async (req, res) => {
     emailText = emailText.replace(/{name}/g, mailData.name);
     emailText = emailText.replace(/{alarm_name}/g, mailData.alarm_name);
     emailText = emailText.replace(/{alarm_link}/g, mailData.alarm_link);
-    var image = await fs.readFileSync('mail_templates/UpSmarting_Logo_text_HR_coolvetica_large.png');
-    let img64 = image.toString('base64');
     
-    emailText = emailText.replace(/{image}/g, img64)
+    // var image = await fs.readFileSync('mail_templates/Webp.net-resizeimage.png');
+
+    // let img64 = image.toString('base64');
+    
+    // emailText = emailText.replace(/{image}/g, img64)
+    
     const mailOptions = {
       from: config.MAILUSER,
       to: recipient,
       subject: subject,
       text: body,
-      html: emailText
+      html: emailText,
+      attachments: [
+      {   
+        raw: 'Content-Type: text/plain\r\n' +
+        'Content-Disposition: attachment;\r\n' +
+        '\r\n' +
+        'T: (+45) 53 81 85 19' + '\n'+
+        'E: ak@upsmarting.com'  + '\n'+
+        'A: Erik Husfeldts Vej 7, 2630 Taastrup'  + '\n'+
+        'W: https://upsmarting.com'
+      }]
 
     };
     transporter.sendMail(mailOptions, (error, info) => {
