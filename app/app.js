@@ -98,30 +98,17 @@ app.post("/email_template", async (req, res) => {
     emailText = emailText.replace(/{alarm_name}/g, mailData.alarm_name);
     emailText = emailText.replace(/{alarm_link}/g, mailData.alarm_link);
     
-    // var image = await fs.readFileSync('mail_templates/Webp.net-resizeimage.png');
-
-    // let img64 = image.toString('base64');
-    
-    // emailText = emailText.replace(/{image}/g, img64)
+    var image = await fs.readFileSync('mail_templates/signature.png');
     
     const mailOptions = {
-      from: config.MAILUSER,
-      to: recipient,
+      from: 'Upsmarting Alarm <alarm@upsmarting.com>', //to do
+      to: `'"${mailData.name}"' ${recipient}`,
       subject: subject,
       text: body,
       html: emailText,
-      attachments: [
-      {   
-        raw: 'Content-Type: text/plain\r\n' +
-        'Content-Disposition: attachment;\r\n' +
-        '\r\n' +
-        'T: (+45) 53 81 85 19' + '\n'+
-        'E: ak@upsmarting.com'  + '\n'+
-        'A: Erik Husfeldts Vej 7, 2630 Taastrup'  + '\n'+
-        'W: https://upsmarting.com'
-      }]
 
     };
+    
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         res.status(400).send({
@@ -133,6 +120,7 @@ app.post("/email_template", async (req, res) => {
       }
     });
   }
+  
 });
 
 
