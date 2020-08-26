@@ -98,7 +98,7 @@ app.post("/email_template", async (req, res) => {
     emailText = emailText.replace(/{alarm_name}/g, mailData.alarm_name);
     emailText = emailText.replace(/{alarm_link}/g, mailData.alarm_link);
     
-    var image = await fs.readFileSync('mail_templates/signature.png');
+
     
     const mailOptions = {
       from: 'Upsmarting Alarm <alarm@upsmarting.com>', //to do
