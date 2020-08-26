@@ -16,8 +16,7 @@ app.use(express.urlencoded({ extended: false })); //to get response fromm
 app.use(express.json()); //to sumit form
 
 app.get("/test", async (req, res) => {
-  res.status(200).send(process.env);
-  //res.status(200).send("Hello");
+  res.status(200).send("Hello");
 });
 
 app.post("/email", async (req, res) => {

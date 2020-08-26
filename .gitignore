@@ -1,4 +1,5 @@
 config.js
+k8s_secrets.yaml
 # Logs
 logs
 *.log

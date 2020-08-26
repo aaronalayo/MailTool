@@ -1,6 +1,6 @@
-FROM node:latest
+FROM node:14.8-alpine
 ENV NODE_VERSION 14.8.0
-WORKDIR /home/chrx/upsmarting/MailTool/app/app.js
+WORKDIR /app
 
 COPY app/ ./
 
