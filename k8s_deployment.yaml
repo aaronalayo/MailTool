@@ -32,7 +32,7 @@ spec:
     spec:
       containers:
         - name: ups-mail-api-container
-          image: gcr.io/upsmarting/ups_mail_api:v1.0.2
+          image: gcr.io/upsmarting/ups_mail_api:v1.0.7
           ports:
             - containerPort: 2000
           envFrom:

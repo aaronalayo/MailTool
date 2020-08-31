@@ -10,10 +10,10 @@ services:
       - ./configs/public.env
       - ./configs/private.env
     ports:
-      - "88:2000" # Remember, this must correspond to the environmental variable file.
+      - "2000:2000" # Remember, this must correspond to the environmental variable file.
     container_name: ups_mail_api
-    #volumes: # Only mounted if run by docker-compose up
-    #  - ./app/src:/app/src
+    volumes: # Only mounted if run by docker-compose up
+      - ./app/src:/app/src
     logging:
       driver: "json-file"
       options:
