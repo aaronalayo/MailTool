@@ -93,13 +93,19 @@ app.post("/email_template", async (req, res) => {
     res
       .status(411)
       .send("The name has illegal characters");
+  } else if (mailData.device.length == 0 || mailData.device.length > 30) {
+      res.status(411).send("Device name length must be between 1 - 30 characters.");
+  } else if (generalTextFilter.test(mailData.device) == false) {
+      res
+        .status(411)
+        .send("The device name has illegal characters");
   } else {
 
     var emailText = await readFile('src/mail_templates/simple_alert.html', 'utf8');
     emailText = emailText.replace(/{timestamp}/g, mailData.timestamp);
     emailText = emailText.replace(/{name}/g, mailData.name);
     emailText = emailText.replace(/{dashboard_link}/g, mailData.dashboard_link);
-    emailText = emailText.replace(/{device_name}/g, mailData.name);
+    emailText = emailText.replace(/{device_name}/g, mailData.device);
 
     emailText = emailText.replace(/{mt_val}/g, mailData.mt_val);
     emailText = emailText.replace(/{mt_res}/g, mailData.mt_res);
