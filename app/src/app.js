@@ -18,6 +18,27 @@ app.use(express.urlencoded({ extended: false })); //to get response fromm
 // parse application/json
 app.use(express.json()); //to sumit form
 
+function getPrettyTimestamp() {
+  var d = new Date();
+  var month = "" + (d.getUTCMonth() + 1);
+  var day = "" + d.getUTCDate();
+  var year = "" + d.getUTCFullYear();
+  var hour = "" + d.getUTCHours();
+  var min = "" + d.getUTCMinutes();
+  var secs = "" + d.getUTCSeconds();
+  if (month.length < 2)
+      month = "0" + month;
+  if (day.length < 2)
+      day = "0" + day;
+  if (hour.length < 2)
+      hour = "0" + hour;
+  if (min.length < 2)
+      min = "0" + min;
+  if (secs.length < 2)
+      secs = "0" + secs;
+  return `${year}.${month}.${day} ${hour}:${min}:${secs}`;
+};
+
 app.get("/test", async (req, res) => {
   res.status(200).send("Hello");
 });
@@ -55,6 +76,10 @@ app.post("/email", async (req, res) => {
       text: body
 
     };
+    console.log(getPrettyTimestamp() + " ### SENDING EMAIL ### - START");
+    console.log("mailOptions -->");
+    console.log(mailOptions);
+    console.log("<-- mailOptions:");
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
         res.status(400).send({
@@ -65,6 +90,7 @@ app.post("/email", async (req, res) => {
         res.status(200).send(info);
       }
     });
+    console.log(getPrettyTimestamp() + " ### SENDING EMAIL ### - END");
   }
 });
 
@@ -130,6 +156,10 @@ app.post("/email_template", async (req, res) => {
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
+      console.log(getPrettyTimestamp() + " ### SENDING EMAIL ### - START");
+      console.log("mailOptions -->");
+      console.log(mailOptions);
+      console.log("<-- mailOptions:");
       if (error) {
         res.status(400).send({
           message: "Could not send email, got the following error :",
@@ -138,6 +168,7 @@ app.post("/email_template", async (req, res) => {
       } else {
         res.status(200).send(info);
       }
+      console.log(getPrettyTimestamp() + " ### SENDING EMAIL ### - END");
     });
   }
   
