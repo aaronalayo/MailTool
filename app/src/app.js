@@ -82,6 +82,8 @@ app.post("/email", async (req, res) => {
     console.log("<-- mailOptions:");
     transporter.sendMail(mailOptions, (error, info) => {
       if (error) {
+        console.log("Got error:");
+        console.log(error);
         res.status(400).send({
           message: "Could not send email, got the following error :",
           error,
@@ -161,6 +163,8 @@ app.post("/email_template", async (req, res) => {
       console.log(mailOptions);
       console.log("<-- mailOptions:");
       if (error) {
+        console.log("Got error:");
+        console.log(error);
         res.status(400).send({
           message: "Could not send email, got the following error :",
           error,

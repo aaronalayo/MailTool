@@ -8,10 +8,11 @@ metadata:
 spec:
   ports:
     - port: 80 # Incoming
+      protocol: TCP
       targetPort: 2000 # To deployment
   selector:
     app: ups-mail-api-deployment
-  type: NodePort
+  type: ClusterIP
 ---
 apiVersion: apps/v1
 kind: Deployment
@@ -32,7 +33,8 @@ spec:
     spec:
       containers:
         - name: ups-mail-api-container
-          image: gcr.io/upsmarting/ups_mail_api:v1.0.11
+          # image: gcr.io/upsmarting/ups_mail_api:v1.0.11
+          image: 017446926792.dkr.ecr.eu-north-1.amazonaws.com/ups_mail_api:v1.0.1
           ports:
             - containerPort: 2000
           envFrom:
